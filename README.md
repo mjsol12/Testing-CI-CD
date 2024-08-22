@@ -6,8 +6,8 @@
 
 Quick start options:
 
-- Clone the repo: `git clone https://github.com/creativetimofficial/light-bootstrap-dashboard-react.git`.
-- Download the packages: .
+- Clone the repo: `git clone https://github.com/mjsol12/star-wars.git`.
+- Install the dependencies: `yarn install` or `npm install`.
 - Start the project: `yarn start` or `npm start`.
 
 ## File Structure
