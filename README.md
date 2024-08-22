@@ -86,5 +86,6 @@ light-bootstrap-dashboard-react
 
 ## Licensing
 
-- Copyright 2022 Creative Tim (https://www.creative-tim.com?ref=lbdr-readme)
-- Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
+- **Template Source:** The template used in this project is [Light Bootstrap Dashboard React](https://demos.creative-tim.com/light-bootstrap-dashboard-react/#/?ref=lbdr-readme) by Creative Tim.
+- **Template License:** Licensed under the [MIT License](https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md).
+- **Project License:** Please check the project's own licensing details if applicable.
