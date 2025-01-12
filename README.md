@@ -1,15 +1,38 @@
-# [Light Bootstrap Dashboard React](https://demos.creative-tim.com/light-bootstrap-dashboard-react/#/?ref=lbdr-readme) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)]
+# Star Wars Data Explorer
 
-[View More](https://github.com/creativetimofficial/light-bootstrap-dashboard-react).
+Star Wars Data Explorer is a web application that allows users to explore data from the Star Wars universe. This project is built using the [Light Bootstrap Dashboard React](https://demos.creative-tim.com/light-bootstrap-dashboard-react/#/?ref=lbdr-readme) template by Creative Tim.
 
-## Quick start
+## Quick Start
 
-Quick start options:
+To get started with the project, follow these steps:
 
-- Clone the repo: `git clone https://github.com/mjsol12/star-wars.git`.
-- Install the dependencies: `yarn install` or `npm install`.
-- Start the project: `yarn start` or `npm start`.
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/mjsol12/star-wars.git](https://github.com/mjsol12/Star-Wars-Data-Explorer.git)
 
+### Install the Dependencies
+Using Yarn:
+```bash
+yarn install
+```
+
+Or using npm:
+```bash
+npm install
+```
+
+### Start the Project
+Using Yarn:
+```bash
+yarn start
+```
+
+Or using npm:
+```bash
+npm start
+```
+
+---
 ## File Structure
 
 Within the download you'll find the following directories and files:
@@ -55,6 +78,9 @@ light-bootstrap-dashboard-react
         ├── Dashboard.js
     │   └── ....
 ```
+
+## Acknowledgments
+Special thanks to Creative Tim for the template.
 
 ## Licensing
 
