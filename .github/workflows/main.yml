@@ -10,13 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Debug DEPLOYMENT_PAT
-      run: echo "DEPLOYMENT_PAT: ${{ secrets.DEPLOYMENT_PAT }}"
-
-    steps:
     - name: Trigger Deployment Repository
       run: |
-        curl -X POST -H "Authorization: token ${{ secrets.DEPLOYMENT_PAT }}" \
+        curl -X POST -H "Authorization: token $secrets.DEPLOYMENT_PAT_ENV" \
         -H "Accept: application/vnd.github.everest-preview+json" \
         https://api.github.com/repos/mjsol12/Testing-CI-CD/dispatches \
         -d '{"event_type": "deploy"}'
