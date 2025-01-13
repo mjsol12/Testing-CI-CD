@@ -11,6 +11,10 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    
+    env:
+      DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOYMENT_PAT }} # Inject the secret into an environment variable
+
 
     steps:
     - name: Checkout Sub-Development Repository
