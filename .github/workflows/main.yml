@@ -1,9 +1,9 @@
 name: Sync Sub-Development with Deployment
 
 on:
-  push:
-    branches:
-      - main # Replace 'main' with the branch you want to monitor
+  repository_dispatch:
+    types:
+      - deploy
 
 jobs:
   sync:
@@ -15,5 +15,6 @@ jobs:
 
     - name: Push Changes to Deployment Repository
       run: |
-        git remote add deployment https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git
-        git subtree push --prefix=src deployment main
+        git subtree add --prefix=srdvvv https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git --squash
+        git subtree push --prefix=srdvvv https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
+        git subtree push --prefix=srdvvv https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git stage
