@@ -3,17 +3,43 @@ name: Sync Sub-Development with Deployment
 on:
   push:
     branches:
-      - main # Replace 'main' with the branch you want to monitor
+      - main # Trigger when changes are pushed to the 'main' branch
+  repository_dispatch:  # Allow manual triggering from the GitHub Actions UI
+    types:
+      - deploy
+  workflow_dispatch:
+    inputs:
+      user_name:
+        description: "Developer's Git Name"
+        required: true
+      user_email:
+        description: "Developer's Git Email"
+        required: true
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    
+    env:
+      DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
+
 
     steps:
     - name: Checkout Sub-Development Repository
       uses: actions/checkout@v3
 
+    - name: Configure Git Identity
+      run: |
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+
     - name: Push Changes to Deployment Repository
       run: |
-        git remote add deployment https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git
-        git subtree push --prefix=src deployment main
+        # Add subtree with squash
+        git subtree add --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
+
+        # Push subtree to stage branch in the deployment repository
+        git subtree pull --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
+
+        # Push subtree to stage branch in the deployment repository again (if needed)
+        git subtree push --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage
