@@ -15,6 +15,11 @@ jobs:
 
     - name: Push Changes to Deployment Repository
       run: |
-        git subtree add --prefix=srdvvv https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git --squash
-        git subtree push --prefix=srdvvv https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
-        git subtree push --prefix=srdvvv https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git stage
+        # Add subtree with squash
+        git subtree add --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git --squash
+
+        # Push subtree to stage branch in the deployment repository
+        git subtree pull --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
+
+        # Push subtree to stage branch in the deployment repository again (if needed)
+        git subtree push --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage
