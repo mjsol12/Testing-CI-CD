@@ -8,8 +8,16 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
-
+    
     steps:
+    - name: Debug DEPLOYMENT_PAT_ENV
+      run: |
+        if [ -z "$DEPLOYMENT_PAT_ENV" ]; then
+          echo "DEPLOYMENT_PAT_ENV is empty"
+          exit 1
+        else
+          echo "DEPLOYMENT_PAT_ENV is set"
+        fi
     - name: Trigger Deployment Repository
       run: |
         curl -X POST -H "Authorization: token ${{ secrets.DEPLOYMENT_PAT }}" \
