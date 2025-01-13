@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Debug DEPLOYMENT_PAT_ENV
       run: |
-        if [ -z "$DEPLOYMENT_PAT_ENV" ]; then
+        if [ -z  "${{ secrets.DEPLOYMENT_PAT }}" ]; then
           echo "DEPLOYMENT_PAT_ENV is empty"
           exit 1
         else
