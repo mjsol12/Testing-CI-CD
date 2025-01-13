@@ -47,7 +47,7 @@ jobs:
     - name: Add Subtree Changes
       run: |
         echo "Adding subtree or pulling changes..."
-        git subtree add --prefix=srdvvv https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git --squash
+        git subtree add --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git --squash
 
     - name: Pull Subtree Changes
       run: |
