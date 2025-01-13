@@ -19,6 +19,6 @@ jobs:
         git remote add deployment https://github.com/mjsol12/Star-Wars-Data-Explorer.git
 
         # Push changes to the deployment repository
-        git subtree push --prefix=src deployment main
+        git subtree push --prefix=srcr deployment main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
