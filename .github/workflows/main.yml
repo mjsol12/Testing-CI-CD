@@ -50,7 +50,7 @@ jobs:
     - name: Pull Subtree Changes
       run: |
         echo "Adding subtree or pulling changes..."
-        git subtree pull --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
+        git subtree pull --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
 
     - name: Push Changes
       run: |
