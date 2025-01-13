@@ -37,6 +37,8 @@ jobs:
       run: |
         if git ls-tree --name-only HEAD | grep -q '^srdvvv$'; then
           echo "Directory 'srdvvv' already exists. Skipping subtree add."
+           # Push subtree to stage branch in the deployment repository
+           git subtree pull --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
         else
           echo "Directory 'srdvvv' does not exist. Adding subtree."
           git subtree add --prefix=srdvvv https://mjsol12:${{ secrets.DEPLOYMENT_PAT }}@github.com/mjsol12/Star-Wars-Data-Explorer.git --squash
@@ -44,8 +46,5 @@ jobs:
 
     - name: Push Changes to Deployment Repository
       run: |
-        # Push subtree to stage branch in the deployment repository
-        git subtree pull --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
-
         # Push subtree to stage branch in the deployment repository again (if needed)
         git push
