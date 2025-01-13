@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOYMENT_PAT }} # Inject the secret into an environment variable
+      DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
 
 
     steps:
