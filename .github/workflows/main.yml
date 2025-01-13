@@ -22,6 +22,7 @@ jobs:
     
     env:
       DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
+      PREFIX_PATH: clone 
 
 
     steps:
@@ -35,24 +36,24 @@ jobs:
    
     - name: Reset Subtree Directory
       run: |
-        if git ls-tree --name-only HEAD | grep -q '^srdvvv$'; then
-          echo "Directory 'srdvvv' exists. Removing it."
-          git rm -r --cached srdvvv
-          rm -rf srdvvv
-          git commit -m "Remove existing subtree directory 'srdvvv'."
+        if git ls-tree --name-only HEAD | grep -q '^$PREFIX_PATH$'; then
+          echo "Directory '$PREFIX_PATH' exists. Removing it."
+          git rm -r --cached $PREFIX_PATH
+          rm -rf $PREFIX_PATH
+          git commit -m "Remove existing subtree directory '$PREFIX_PATH'."
         else
-          echo "Directory 'srdvvv' does not exist. Proceeding with subtree pull."
+          echo "Directory '$PREFIX_PATH' does not exist. Proceeding with subtree pull."
         fi
 
     - name: Add Subtree Changes
       run: |
         echo "Adding subtree or pulling changes..."
-        git subtree add --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git --squash
+        git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git --squash
 
     - name: Pull Subtree Changes
       run: |
         echo "Adding subtree or pulling changes..."
-        git subtree pull --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
+        git subtree pull --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
 
     - name: Push Changes
       run: |
