@@ -1,7 +1,10 @@
 name: Sync Sub-Development with Deployment
 
 on:
-  repository_dispatch:
+  push:
+    branches:
+      - main # Trigger when changes are pushed to the 'main' branch
+  repository_dispatch:  # Allow manual triggering from the GitHub Actions UI
     types:
       - deploy
 
