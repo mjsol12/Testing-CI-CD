@@ -38,9 +38,6 @@ jobs:
       run: |
         if git ls-tree --name-only HEAD | grep -q '^$PREFIX_PATH$'; then
           echo "Directory '$PREFIX_PATH' exists. Removing it."
-          git rm -r --cached $PREFIX_PATH
-          rm -rf $PREFIX_PATH
-          git commit -m "Remove existing subtree directory '$PREFIX_PATH'."
         else
           echo "Directory '$PREFIX_PATH' does not exist. Proceeding with subtree pull."
         fi
