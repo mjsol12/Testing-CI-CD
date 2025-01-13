@@ -7,6 +7,14 @@ on:
   repository_dispatch:  # Allow manual triggering from the GitHub Actions UI
     types:
       - deploy
+  workflow_dispatch:
+    inputs:
+      user_name:
+        description: "Developer's Git Name"
+        required: true
+      user_email:
+        description: "Developer's Git Email"
+        required: true
 
 jobs:
   sync:
@@ -19,6 +27,11 @@ jobs:
     steps:
     - name: Checkout Sub-Development Repository
       uses: actions/checkout@v3
+
+    - name: Configure Git Identity
+      run: |
+        git config --global user.name "${{ github.event.inputs.user_name }}"
+        git config --global user.email "${{ github.event.inputs.user_email }}"
 
     - name: Push Changes to Deployment Repository
       run: |
