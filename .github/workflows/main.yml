@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Debug DEPLOYMENT_PAT
+      run: echo "DEPLOYMENT_PAT: ${{ secrets.DEPLOYMENT_PAT }}"
+
+    steps:
     - name: Trigger Deployment Repository
       run: |
         curl -X POST -H "Authorization: token ${{ secrets.DEPLOYMENT_PAT }}" \
