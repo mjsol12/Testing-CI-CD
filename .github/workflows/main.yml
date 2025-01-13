@@ -1,0 +1,24 @@
+name: Sync Sub-Development with Deployment
+
+on:
+  push:
+    branches:
+      - main # Replace 'main' with the branch you want to monitor
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Sub-Development Repository
+      uses: actions/checkout@v3
+
+    - name: Push Changes to Deployment Repository
+      run: |
+        # Add the deployment repository as a remote
+        git remote add deployment https://github.com/mjsol12/Star-Wars-Data-Explorer.git
+
+        # Push changes to the deployment repository
+        git subtree push --prefix=src deployment main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
