@@ -42,4 +42,4 @@ jobs:
         git subtree pull --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage --squash
 
         # Push subtree to stage branch in the deployment repository again (if needed)
-        git subtree push --prefix=srdvvv https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git stage
+        git push
