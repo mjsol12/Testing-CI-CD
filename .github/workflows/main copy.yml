@@ -6,7 +6,7 @@ on:
       - stage # Trigger when changes are pushed to the 'main' branch
   repository_dispatch:  # Allow manual triggering from the GitHub Actions UI
     types:
-      - deploy
+      - deploys
   workflow_dispatch:
     inputs:
       user_name:
