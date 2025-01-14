@@ -23,7 +23,7 @@ jobs:
     env:
       DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
       PREFIX_PATH: clone 
-
+      REPO_URL: https://github.com/mjsol12/Star-Wars-Data-Explorer.git
 
     steps:
     - name: Checkout Sub-Development Repository
@@ -53,8 +53,8 @@ jobs:
     - name: Add Subtree
       run: |
         echo "Adding subtree..."
-        git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
-        git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
+        git fetch  main
+        git subtree add --prefix=$PREFIX_PATH https://x-access-token:${TOKEN}@${REPO_URL} main --squash
   
     - name: Commit and Push Changes
       run: |
