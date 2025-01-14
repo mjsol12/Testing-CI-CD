@@ -3,6 +3,8 @@ name: Sync Sub-Development with Deployment
 on:
   push:
     branches:
+      - stage # Trigger when changes are pushed to the 'stage' branch
+      - testing # Trigger when changes are pushed to the 'testing' branch
       - main # Trigger when changes are pushed to the 'main' branch
   repository_dispatch:  # Allow manual triggering from the GitHub Actions UI
     types:
@@ -23,7 +25,6 @@ jobs:
     env:
       DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
       PREFIX_PATH: clone 
-      REPO_URL: https://github.com/mjsol12/Star-Wars-Data-Explorer.git
 
     steps:
     - name: Checkout Sub-Development Repository
@@ -33,6 +34,18 @@ jobs:
       run: |
         git config --global user.name "GitHub Actions Bot"
         git config --global user.email "actions@github.com"
+      env:  
+        REPO_URL: https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git
+    
+    - name: Determine Branch Name
+      run: |
+        if [ -n "${{ github.event.inputs.branch }}" ]; then
+          echo "Using specified branch: ${{ github.event.inputs.branch }}"
+          echo "BRANCH_NAME=${{ github.event.inputs.branch }}" >> $GITHUB_ENV
+        else
+          echo "Using branch: ${{ github.ref_name }}"
+          echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+        fi
     
     - name: Clean Subtree Directory
       run: |
@@ -54,11 +67,11 @@ jobs:
       run: |
         echo "Adding subtree..."
         git fetch  main
-        git subtree add --prefix=$PREFIX_PATH https://x-access-token:${DEPLOYMENT_PAT_ENV}@${REPO_URL} main --squash
+        git subtree add --prefix=$PREFIX_PATH $REPO_URL main --squash
   
     - name: Commit and Push Changes
       run: |
         echo "Committing and pushing changes..."
         git add .
-        git commit -m "Sync subtree from Star-Wars-Data-Explorer" || echo "No changes to commit."
-        git push origin main || echo "No changes to push."
+        git commit -m "Sync subtree with branch ${{ env.BRANCH_NAME }} from Star-Wars-Data-Explorer" || echo "No changes to commit."
+        git push origin ${{ env.BRANCH_NAME }} || echo "No changes to push."
