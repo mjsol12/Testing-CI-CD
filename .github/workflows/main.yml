@@ -81,5 +81,5 @@ jobs:
   
     - name: Commit and Push Changes
       run: |
-        echo "push changes to branch:${{ env.BRANCH_NAME }"
+        echo "push changes to branch:${{ env.BRANCH_NAME }}"
         git push origin ${{ env.BRANCH_NAME }} || echo "No changes to push."
