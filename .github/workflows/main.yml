@@ -55,12 +55,6 @@ jobs:
         echo "Adding subtree..."
         git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
         git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
-    
-    - name: Update .git/info/exclude to Ignore Files
-      run: |
-        echo "/*" >> .git/info/exclude
-        echo "!src/" >> .git/info/exclude
-        echo "!test/" >> .git/info/exclude
   
     - name: Commit and Push Changes
       run: |
