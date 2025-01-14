@@ -36,25 +36,29 @@ jobs:
     
     - name: Clean Subtree Directory
       run: |
-          if [ -d "$PREFIX_PATH" ]; then
-            echo "Directory $PREFIX_PATH exists. Removing it..."
-            git rm -r --cached $PREFIX_PATH
-            rm -rf $PREFIX_PATH   
-            git add .
-            git commit -m "remove subtree" || echo "No changes to commit."
-          else
-            echo "Directory $PREFIX_PATH does not exist. Proceeding with subtree add."
-          fi
-  
+        if [ -d "$PREFIX_PATH" ]; then
+          echo "Directory $PREFIX_PATH exists. Removing it..."
+          git rm -r --cached $PREFIX_PATH
+          rm -rf $PREFIX_PATH
+        else
+          echo "Directory $PREFIX_PATH does not exist. Proceeding with subtree add."
+        fi
+
+    - name: Commit Directory Deletion
+      run: |
+        echo "Committing directory deletion..."
+        git add .
+        git commit -m "Remove old subtree directory" || echo "No changes to commit."
+
     - name: Add Subtree
       run: |
-          echo "Adding subtree..."
-          git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
-          git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
+        echo "Adding subtree..."
+        git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
+        git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
   
     - name: Commit and Push Changes
       run: |
-          echo "Committing and pushing changes..."
-          git add .
-          git commit -m "Sync subtree from Star-Wars-Data-Explorer" || echo "No changes to commit."
-          git push origin main || echo "No changes to push."
+        echo "Committing and pushing changes..."
+        git add .
+        git commit -m "Sync subtree from Star-Wars-Data-Explorer" || echo "No changes to commit."
+        git push origin main || echo "No changes to push."
