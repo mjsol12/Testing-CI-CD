@@ -24,35 +24,27 @@ jobs:
       DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
       PREFIX_PATH: clone 
 
-
     steps:
-    - name: Checkout Sub-Development Repository
-      uses: actions/checkout@v3
-
-    - name: Configure Git Identity
-      run: |
-        git config --global user.name "GitHub Actions Bot"
-        git config --global user.email "actions@github.com"
-   
-    - name: Reset Subtree Directory
-      run: |
-        if git ls-tree --name-only HEAD | grep -q '^$PREFIX_PATH$'; then
-          echo "Directory '$PREFIX_PATH' exists. Removing it."
-        else
-          echo "Directory '$PREFIX_PATH' does not exist. Proceeding with subtree pull."
-        fi
-
-    - name: Add Subtree Changes
-      run: |
-       echo "Adding subtree or pulling changes..."
-       git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
-
-    - name: Pull Subtree Changes
-      run: |
-        echo "Adding subtree or pulling changes..."
-        git subtree pull --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
-
-    - name: Push Changes
-      run: |
-        # Push subtree to stage branch in the deployment repository again (if needed)
-        git push
+        - name: Checkout Main Repository
+          uses: actions/checkout@v3
+    
+        - name: Configure Git Identity
+          run: |
+            git config --global user.name "GitHub Actions Bot"
+            git config --global user.email "actions@github.com"
+    
+        - name: Add or Update Subtree
+          run: |
+            echo "Fetching remote repository..."
+            git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
+            
+            echo "Adding or updating subtree..."
+            git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash || \
+            git subtree pull --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
+    
+        - name: Commit and Push Changes
+          run: |
+            echo "Committing and pushing changes..."
+            git add .
+            git commit -m "Sync subtree from Star-Wars-Data-Explorer" || echo "No changes to commit."
+            git push origin main || echo "No changes to push."
