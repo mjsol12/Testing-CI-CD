@@ -81,7 +81,4 @@ jobs:
   
     - name: Commit and Push Changes
       run: |
-        echo "Committing and pushing changes..."
-        git add .
-        git commit -m "Sync subtree with branch ${{ env.BRANCH_NAME }} from Star-Wars-Data-Explorer" || echo "No changes to commit."
         git push origin ${{ env.BRANCH_NAME }} || echo "No changes to push."
