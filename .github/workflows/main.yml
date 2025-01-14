@@ -54,7 +54,7 @@ jobs:
       run: |
         echo "Adding subtree..."
         git fetch  main
-        git subtree add --prefix=$PREFIX_PATH https://x-access-token:${TOKEN}@${REPO_URL} main --squash
+        git subtree add --prefix=$PREFIX_PATH https://x-access-token:${DEPLOYMENT_PAT_ENV}@${REPO_URL} main --squash
   
     - name: Commit and Push Changes
       run: |
