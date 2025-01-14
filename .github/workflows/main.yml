@@ -17,24 +17,18 @@ on:
         required: true
 
 jobs:
-  checkout:
+  update-lib:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-    env:
-      DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
-      PREFIX_PATH: clone 
-
-
-  release:
-      runs-on: ubuntu-latest
-      needs: checkout
-      steps:
-        - name: Release
-          uses: xedi/action-subtree-sync@1.0.0
-          with:
-            subtree: 'https://github.com/mjsol12/Star-Wars-Data-Explorer.git'
-            subtree_deploy_key: ${{ secrets.DEPLOY_PAT_MAIN }}
-            split_prefix: 'src/directory'
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: karlludwigweise/git-subtree@v1
+        with:
+          pat: ${{ secrets.DEPLOY_PAT_MAIN }}
+          repo:  https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git
+          action: pull
+          prefix: clone
+          message: Custom Commit Message
+      - name: push
+        run: git push
