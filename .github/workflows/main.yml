@@ -35,6 +35,6 @@ jobs:
         - name: Release
           uses: xedi/action-subtree-sync@1.0.0
           with:
-            subtree: 'https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git'
+            subtree: 'Star-Wars-Data-Explorer'
             subtree_deploy_key: ${{ secrets.DEPLOY_PAT_MAIN }}
             split_prefix: 'src/directory'
