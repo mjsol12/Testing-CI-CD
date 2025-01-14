@@ -1,4 +1,4 @@
-name: Sync Sub-Development with Deployment
+name: Sync Sub-Repo Plugin with Deployment
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
       - main # Trigger when changes are pushed to the 'main' branch
   repository_dispatch:  # Allow manual triggering from the GitHub Actions UI
     types:
-      - deploy
+      - trigger-sync
   workflow_dispatch:
     inputs:
       user_name:
@@ -26,6 +26,7 @@ jobs:
       DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
       BASE_PATH: wp-content/plugins/wp-nn-plugin # Correct path for wordrpess plugin
       REPO_NAME: Star-Wars-Data-Explorer
+      BRANCH_NAME: ""
 
     steps:
     - name: Checkout Sub-Development Repository
@@ -38,15 +39,19 @@ jobs:
     
     - name: Determine Branch Name
       run: |
-        if [ -n "${{ github.event.inputs.branch }}" ]; then
+        if [ -n "${{ github.event.client_payload.branch }}" ]; then
+          BRANCH_NAME="${{ github.event.client_payload.branch }}"
+          echo "Branch provided in client payload: $BRANCH_NAME"
+        elif [ -n "${{ github.event.inputs.branch }}" ]; then
+          BRANCH_NAME="${{ github.event.inputs.branch }}"
           echo "Using specified branch: ${{ github.event.inputs.branch }}"
-          echo "BRANCH_NAME=${{ github.event.inputs.branch }}" >> $GITHUB_ENV
         else
+          BRANCH_NAME="${{ github.ref_name }}"
           echo "Using branch: ${{ github.ref_name }}"
-          echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
         fi
 
         # construct the prefix path
+        echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
         PREFIX_PATH="$BASE_PATH/$REPO_NAME"
         echo "Constructed prefix path: $PREFIX_PATH"
         echo "PREFIX_PATH=$PREFIX_PATH" >> $GITHUB_ENV
