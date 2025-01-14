@@ -39,7 +39,9 @@ jobs:
           if [ -d "$PREFIX_PATH" ]; then
             echo "Directory $PREFIX_PATH exists. Removing it..."
             git rm -r --cached $PREFIX_PATH
-            rm -rf $PREFIX_PATH
+            rm -rf $PREFIX_PATH   
+            git add .
+            git commit -m "remove subtree" || echo "No changes to commit."
           else
             echo "Directory $PREFIX_PATH does not exist. Proceeding with subtree add."
           fi
