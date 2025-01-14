@@ -24,7 +24,8 @@ jobs:
     
     env:
       DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
-      PREFIX_PATH: wp-content/plugins/wp-nn-plugin # Correct path for wordrpess plugin
+      BASE_PATH: wp-content/plugins/wp-nn-plugin # Correct path for wordrpess plugin
+      REPO_NAME: Star-Wars-Data-Explorer
 
     steps:
     - name: Checkout Sub-Development Repository
@@ -44,6 +45,11 @@ jobs:
           echo "Using branch: ${{ github.ref_name }}"
           echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
         fi
+
+        # construct the prefix path
+        PREFIX_PATH="$BASE_PATH/$REPO_NAME"
+        echo "Constructed prefix path: $PREFIX_PATH"
+        echo "PREFIX_PATH=$PREFIX_PATH" >> $GITHUB_ENV
     
     - name: Clean Subtree Directory
       run: |
@@ -64,8 +70,8 @@ jobs:
     - name: Add Subtree
       run: |
         echo "Adding subtree..."
-        git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git ${{ env.BRANCH_NAME }}
-        git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git ${{ env.BRANCH_NAME }} --squash
+        git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/$REPO_NAME.git ${{ env.BRANCH_NAME }}
+        git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/$REPO_NAME.git ${{ env.BRANCH_NAME }} --squash
   
     - name: Commit and Push Changes
       run: |
