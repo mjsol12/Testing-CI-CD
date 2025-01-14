@@ -34,8 +34,8 @@ jobs:
         git config --global user.name "GitHub Actions Bot"
         git config --global user.email "actions@github.com"
    
-        - name: Force Fresh Subtree Addition
-        run: |
+    - name: Force Fresh Subtree Addition
+      run: |
           # Remove existing directory if it exists
           rm -rf $PREFIX_PATH
           
