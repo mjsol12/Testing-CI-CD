@@ -17,30 +17,24 @@ on:
         required: true
 
 jobs:
-  sync:
+  checkout:
     runs-on: ubuntu-latest
-    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
     env:
       DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
       PREFIX_PATH: clone 
 
-    steps:
-      - name: Initialize Subtree or Update
-        run: |
-            # Check if the subtree exists in the repository
-            if  thgit ls-tree --name-only HEAD | grep -q "^$PREFIX_PATH$";en
-              echo "Subtree exists. Pulling latest changes..."
-              git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
-              git subtree pull --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
-            else
-              echo "Subtree does not exist. Adding it..."
-              git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
-              git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
-            fi
 
-      - name: Commit and Push Changes
-        run: |
-            echo "Committing and pushing changes..."
-            git add .
-            git commit -m "Sync subtree from Star-Wars-Data-Explorer" || echo "No changes to commit."
-            git push origin main || echo "No changes to push."
+  release:
+      runs-on: ubuntu-latest
+      needs: checkout
+      steps:
+        - name: Release
+          uses: xedi/action-subtree-sync@1.0.0
+          with:
+            subtree: 'https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git'
+            subtree_deploy_key: ${{ secrets.DEPLOY_PAT_MAIN }}
+            split_prefix: 'src/directory'
