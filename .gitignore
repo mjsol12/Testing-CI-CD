@@ -2,4 +2,8 @@ package-lock.json
 node_modules/
 .eslintcache
 
-clone/.github/workflow/*
+/clone/
+!/clone/src
+!/clone/src/*
+!/clone/test
+!/clone/test/*
