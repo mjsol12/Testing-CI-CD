@@ -52,10 +52,10 @@ jobs:
           echo "Checking if subtree exists..."
           if git ls-tree --name-only HEAD | grep -q "^$PREFIX_PATH$"; then
             echo "Subtree exists. Pulling latest changes..."
-            git subtree pull --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
+            git subtree pull --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash --allow-unrelated-histories
           else
             echo "Subtree does not exist. Adding subtree..."
-            git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
+            git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash --allow-unrelated-histories
           fi
   
     - name: Restore Stashed Changes (if any)
