@@ -24,7 +24,7 @@ jobs:
     
     env:
       DEPLOYMENT_PAT_ENV: ${{ secrets.DEPLOY_PAT_MAIN }} # Inject the secret into an environment variable
-      PREFIX_PATH: clone 
+      PREFIX_PATH: wp-content/plugins/wp-nn-plugin # Correct path for wordrpess plugin
 
     steps:
     - name: Checkout Sub-Development Repository
