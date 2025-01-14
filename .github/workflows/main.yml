@@ -64,8 +64,8 @@ jobs:
     - name: Add Subtree
       run: |
         echo "Adding subtree..."
-        git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main
-        git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git main --squash
+        git fetch https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git ${{ env.BRANCH_NAME }}
+        git subtree add --prefix=$PREFIX_PATH https://mjsol12:$DEPLOYMENT_PAT_ENV@github.com/mjsol12/Star-Wars-Data-Explorer.git ${{ env.BRANCH_NAME }} --squash
   
     - name: Commit and Push Changes
       run: |
